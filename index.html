@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Homework WebSys</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			// will retrieve random users
+			$.ajax({
+				url: "https://dummyapi.io/data/v1/user?limit=10",
+				type: "GET",
+				headers: {
+					"app-id": "6461608df87ddc6a3c2f28e7" 
+				},
+				success: function(data) {
+					var users = data.data;
+					var randomUsers = [];
+					for (var i = 0; i < 2; i++) {
+						var index = Math.floor(Math.random() * users.length);
+						randomUsers.push(users[index]);
+						users.splice(index, 1);
+					}
+					var output = "<h2>Random Users</h2><ul>";
+					$.each(randomUsers, function(key, value) {
+						output += "<li>" + value.firstName + " " + value.lastName + "</li>";
+					});
+					output += "</ul>";
+					$("#users").html(output);
+				},
+				error: function() {
+					$("#users").html("An error occurred while retrieving the users.");
+				}
+			});
+			
+			// will retrieve random posts
+			$.ajax({
+				url: "https://dummyapi.io/data/v1/post?limit=10",
+				type: "GET",
+				headers: {
+					"app-id": "6461608df87ddc6a3c2f28e7" 
+				},
+				success: function(data) {
+					var posts = data.data;
+					var randomPosts = [];
+					for (var i = 0; i < 2; i++) {
+						var index = Math.floor(Math.random() * posts.length);
+						randomPosts.push(posts[index]);
+						posts.splice(index, 1);
+					}
+					var output = "<h2>Random Posts</h2><ul>";
+					$.each(randomPosts, function(key, value) {
+						output += "<li>" + value.text + "</li>";
+					});
+					output += "</ul>";
+					$("#posts").html(output);
+				},
+				error: function() {
+					$("#posts").html("error");
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Content</h1>
+	<div id="users"></div>
+	<div id="posts"></div>
+</body>
+</html>
